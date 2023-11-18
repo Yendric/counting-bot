@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id             String        @unique
+  currentCount   Int           @default(0)
+  goal           Int           @default(69420)
+  countChannelId String?
+  playerStats    PlayerStats[]
+}
+
+model PlayerStats {
+  userId             String
+  guildId            String
+  contributedNumbers Int    @default(0)
+
+  guild Guild @relation(fields: [guildId], references: [id])
+
+  @@unique([userId, guildId])
+}
