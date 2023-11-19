@@ -25,7 +25,7 @@ export default new EventHandler({
         if (currentCount - messageIndex !== getal) {
             newMessage.react("❌");
         } else {
-            newMessage.reactions.removeAll();
+            newMessage.reactions.cache.get("❌")?.remove();
         }
 
         // Huidige guess is fout, vorige was juist -> decrement contributions
