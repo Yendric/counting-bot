@@ -9,6 +9,3 @@ services:
             - ./database.db:/usr/src/app/prisma/database.db
         env_file:
             - .env
-
-volumes:
-    pgdata:
