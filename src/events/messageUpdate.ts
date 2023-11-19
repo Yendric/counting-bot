@@ -16,7 +16,7 @@ export default new EventHandler({
         const { currentCount, countChannelId } = await guild.fetch();
         if (newMessage.channelId !== countChannelId) return;
 
-        const messages = Array.from(newMessage.channel.messages.cache.values()).filter(isCountMessage);
+        const messages = Array.from(newMessage.channel.messages.cache.values()).filter(isUserMessage);
         const messageIndex = messages.length - messages.findIndex((message) => message.id === newMessage.id) - 1;
 
         const getal = parseInt(newMessage.content.split(" ")[0]);
@@ -38,4 +38,4 @@ export default new EventHandler({
     },
 });
 
-const isCountMessage = (message: Message) => !isNaN(parseInt(message.content.split(" ")[0]));
+const isUserMessage = (message: Message) => !message.author.bot;
