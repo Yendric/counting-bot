@@ -3,7 +3,7 @@ version: "3.8"
 services:
     counting_bot:
         container_name: counting_bot
-        image: yendric/counting_bot:main
+        image: yendric/counting-bot:main
         restart: always
         volumes:
             - ./database.db:/usr/src/app/prisma/database.db
