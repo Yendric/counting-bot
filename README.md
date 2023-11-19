@@ -31,6 +31,7 @@ Gebruik hiervoor het `docker-compose.yaml` bestand.
 -   Er gebeurt momenteel niets speciaals wanneer het doel bereikt wordt.
 -   Er zijn nog geen tests.
 -   Er is nauwelijks input validatie.
+-   De generics in EventQueue.ts kunnen nog wat verbetering gebruiken
 
 ## Bijdragen
 

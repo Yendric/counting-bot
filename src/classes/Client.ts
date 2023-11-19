@@ -3,9 +3,11 @@ import { ClientOptions, Collection, Client as DiscordClient, REST, Routes, Snowf
 import EventHandler from "@/classes/EventHandler";
 import Command from "./Command";
 import { log } from "@/log/log";
+import EventQueue from "./EventQueue";
 
 export default class Client extends DiscordClient {
     public commands = new Collection<string, Command>();
+    private eventQueue = new EventQueue(this);
 
     constructor(token: string, options: ClientOptions) {
         super(options);
@@ -22,9 +24,17 @@ export default class Client extends DiscordClient {
             const eventHandler = require("../" + file).default as EventHandler<any>;
 
             if (eventHandler.once) {
-                this.once(eventHandler.event, (...args) => eventHandler.execute(this, args));
+                this.once(
+                    eventHandler.event,
+                    async (...args) =>
+                        await this.eventQueue.processEvent(eventHandler.event, eventHandler.execute, args),
+                );
             } else {
-                this.on(eventHandler.event, (...args) => eventHandler.execute(this, args));
+                this.on(
+                    eventHandler.event,
+                    async (...args) =>
+                        await this.eventQueue.processEvent(eventHandler.event, eventHandler.execute, args),
+                );
             }
 
             log(`Loaded event: ${file}`);
