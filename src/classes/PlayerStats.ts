@@ -37,6 +37,7 @@ export default class PlayerStats {
             create: {
                 guildId: this.guildId,
                 userId: this.userId,
+                contributedNumbers: 1,
             },
             update: {
                 contributedNumbers: {
