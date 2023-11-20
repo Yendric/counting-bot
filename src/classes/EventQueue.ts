@@ -38,7 +38,7 @@ export default class EventQueue {
         }
     }
     public async runEvent<T extends keyof ClientEvents>(queueItem: QueueItem<T>) {
-        // @ts-ignore
-        await queueItem.callback(this.client, queueItem.args);
+        const { callback, args } = queueItem;
+        await (callback as EventExecutor<T>)(this.client, args as ClientEvents[T]);
     }
 }

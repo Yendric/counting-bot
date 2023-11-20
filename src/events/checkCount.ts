@@ -1,6 +1,7 @@
 import EventHandler from "@/classes/EventHandler";
 import Guild from "@/classes/Guild";
 import PlayerStats from "@/classes/PlayerStats";
+import { numToIcons } from "@/utils/helpers";
 
 export default new EventHandler({
     event: "messageCreate",
@@ -18,7 +19,8 @@ export default new EventHandler({
         guild.incrementCount();
 
         if (isNaN(getal) || getal !== currentCount + 1) {
-            message.react("❌");
+            await message.react("❌");
+            await Promise.all(numToIcons(currentCount + 1).map((icon) => message.react(icon)));
         } else {
             await playerStats.incrementContributions();
         }

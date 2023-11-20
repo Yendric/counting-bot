@@ -1,6 +1,7 @@
 import EventHandler from "@/classes/EventHandler";
 import Guild from "@/classes/Guild";
 import PlayerStats from "@/classes/PlayerStats";
+import { numIcons } from "@/utils/helpers";
 import { Message } from "discord.js";
 
 export default new EventHandler({
@@ -25,7 +26,10 @@ export default new EventHandler({
         if (currentCount - messageIndex !== getal) {
             newMessage.react("❌");
         } else {
-            newMessage.reactions.cache.get("❌")?.remove();
+            let reactions = newMessage.reactions.cache.keys();
+            for (const key of reactions) {
+                if ([...Object.values(numIcons).flat(), "❌"].includes(key)) newMessage.reactions.cache.get(key)?.remove();
+            }
         }
 
         // Huidige guess is fout, vorige was juist -> decrement contributions
