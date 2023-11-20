@@ -21,3 +21,11 @@ export function numToIcons(num: number): string[] {
     : numIcons[parseInt(num)][usedNums[parseInt(num)] = 0]
   );
 }
+
+export function createProgressBar(max: number, progress: number): string {
+  if (progress > max) throw new Error("Progress can't be higher than max");
+  const percentage = Math.floor((progress / max) * 100);
+  const progressBar = "▇".repeat(Math.floor(percentage / 10));
+  const emptyBar = "—".repeat(10 - Math.floor(percentage / 10));
+  return `${progressBar}${emptyBar} ${percentage}%`;
+}

@@ -1,5 +1,6 @@
 import Command from "@/classes/Command";
 import Guild from "@/classes/Guild";
+import { createProgressBar } from "@/utils/helpers";
 import { SlashCommandBuilder } from "discord.js";
 
 export default new Command({
@@ -10,9 +11,13 @@ export default new Command({
         const { currentCount, goal } = await new Guild(interaction.guildId).fetch();
 
         await interaction.reply({
-            content: `We zitten momenteel aan ${currentCount}. Dit is ${
-                goal - currentCount
-            } verwijderd van het doel. (${Math.floor((currentCount / goal) * 100)}% voltooid)`,
+            embeds: [
+                client.embed(interaction.guild?.iconURL() ?? undefined)
+                .setDescription(`We zitten momenteel aan ${currentCount}. Dit is ${goal - currentCount} verwijderd van het doel.`)
+                .setFields([
+                    { name: "Progress", value: createProgressBar(goal, currentCount), inline: false },
+                ])
+            ]
         });
     },
 });

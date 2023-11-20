@@ -1,5 +1,5 @@
 import { getFiles } from "@/utils/files";
-import { ClientOptions, Collection, Client as DiscordClient, REST, Routes, Snowflake } from "discord.js";
+import { ClientOptions, Collection, Client as DiscordClient, REST, Routes, EmbedBuilder, Embed } from "discord.js";
 import EventHandler from "@/classes/EventHandler";
 import Command from "./Command";
 import { log } from "@/log/log";
@@ -64,5 +64,13 @@ export default class Client extends DiscordClient {
     private logReady() {
         log(`Online in ${this.guilds.cache.size} servers.`);
         log(`Invite link: https://discord.com/oauth2/authorize?client_id=${this.user?.id}&scope=bot&permissions=8`);
+    }
+
+    public embed(footerIcon?: string): EmbedBuilder {
+        return new EmbedBuilder()
+            .setTitle("Counting Bot")
+            .setColor("#F1F8FF")
+            .setTimestamp(new Date())
+            .setFooter({ text: `Counting Bot v${process.env.npm_package_version}`, iconURL: footerIcon })
     }
 }
