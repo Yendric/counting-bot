@@ -25,7 +25,10 @@ export default new EventHandler({
         if (currentCount - messageIndex !== getal) {
             newMessage.react("❌");
         } else {
-            newMessage.reactions.cache.get("❌")?.remove();
+            let reactions = newMessage.reactions.cache.keys();
+            for (const key of reactions) {
+                if (["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "❌"].includes(key)) newMessage.reactions.cache.get(key)?.remove();
+            }
         }
 
         // Huidige guess is fout, vorige was juist -> decrement contributions
