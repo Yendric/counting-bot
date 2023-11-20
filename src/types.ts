@@ -12,3 +12,9 @@ export enum LogTypes {
 }
 
 export type NumIcons = { [key: number]: string[] };
+
+export type Contributor = {
+    userId: string;
+    guildId: string;
+    contributedNumbers: number;
+};
