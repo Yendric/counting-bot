@@ -4,7 +4,7 @@ import { ClientEvents } from "discord.js";
 export default class EventHandler<T extends keyof ClientEvents> {
     public event: T;
     public once: boolean;
-    public execute: EventExecutor<ClientEvents[T]>;
+    public execute: EventExecutor<T>;
 
     constructor({
         event,
@@ -13,7 +13,7 @@ export default class EventHandler<T extends keyof ClientEvents> {
     }: {
         event: T;
         once?: boolean;
-        execute: EventExecutor<ClientEvents[T]>;
+        execute: EventExecutor<T>;
     }) {
         this.event = event;
         this.once = once;
