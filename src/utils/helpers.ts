@@ -15,7 +15,6 @@ export const numIcons: NumIcons = {
 
 export function numToIcons(num: number): string[] {
   let usedNums: { [key: number]: number } = {};
-  console.log(num.toString().split(""))
   return num.toString().split("").map((num) => usedNums[parseInt(num)] !== undefined
     ? numIcons[parseInt(num)][++usedNums[parseInt(num)]] 
     : numIcons[parseInt(num)][usedNums[parseInt(num)] = 0]
