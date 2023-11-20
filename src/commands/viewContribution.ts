@@ -13,7 +13,8 @@ export default new Command({
     const user = interaction.options.getUser("user") ?? interaction.user;
     const playerStats = new PlayerStats(user.id, interaction.guildId);
 
-    const { contributedNumbers: contribution } = await playerStats.fetch();
+    const stats = await playerStats.find();
+    const contribution = stats?.contributedNumbers ?? 0;
 
     await interaction.reply({
       embeds: [
