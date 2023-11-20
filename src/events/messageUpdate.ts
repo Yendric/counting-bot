@@ -1,6 +1,7 @@
 import EventHandler from "@/classes/EventHandler";
 import Guild from "@/classes/Guild";
 import PlayerStats from "@/classes/PlayerStats";
+import { numIcons } from "@/utils/helpers";
 import { Message } from "discord.js";
 
 export default new EventHandler({
@@ -27,7 +28,7 @@ export default new EventHandler({
         } else {
             let reactions = newMessage.reactions.cache.keys();
             for (const key of reactions) {
-                if (["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "❌"].includes(key)) newMessage.reactions.cache.get(key)?.remove();
+                if ([...Object.values(numIcons).flat(), "❌"].includes(key)) newMessage.reactions.cache.get(key)?.remove();
             }
         }
 

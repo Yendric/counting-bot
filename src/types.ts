@@ -10,3 +10,5 @@ export enum LogTypes {
     Success,
     Error,
 }
+
+export type NumIcons = { [key: number]: string[] };
