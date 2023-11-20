@@ -19,9 +19,7 @@ export default new EventHandler({
         guild.incrementCount();
 
         if (isNaN(getal) || getal !== currentCount + 1) {
-            let promises = [];
-            promises.push(message.react("❌"));
-            numToIcons(currentCount + 1).forEach((icon) => promises.push(message.react(icon)));
+            const promises = [message.react("❌")].concat(...numToIcons(currentCount + 1).map((icon) => message.react(icon)));
             await Promise.all(promises);
         } else {
             await playerStats.incrementContributions();
