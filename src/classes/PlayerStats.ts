@@ -26,17 +26,6 @@ export default class PlayerStats {
         });
     }
 
-    public async find() {
-        return prisma.playerStats.findUnique({
-            where: {
-                userId_guildId: {
-                    guildId: this.guildId,
-                    userId: this.userId
-                }
-            }
-        });
-    }
-
     public async incrementContributions() {
         return prisma.playerStats.upsert({
             where: {
