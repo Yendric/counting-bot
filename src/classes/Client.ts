@@ -1,5 +1,5 @@
 import { getFiles } from "@/utils/files";
-import { ClientOptions, Collection, Client as DiscordClient, REST, Routes, EmbedBuilder, Embed } from "discord.js";
+import { ClientOptions, Collection, Client as DiscordClient, REST, Routes, EmbedBuilder } from "discord.js";
 import EventHandler from "@/classes/EventHandler";
 import Command from "./Command";
 import { log } from "@/log/log";
@@ -68,9 +68,7 @@ export default class Client extends DiscordClient {
         const rest = new REST().setToken(this.token);
 
         await rest.put(Routes.applicationCommands(this.user?.id), {
-            body: this.commands
-                .map((command) => command.data.toJSON() as RESTPostAPIApplicationGuildCommandsJSONBody)
-                .concat(this.contextMenus.map((contextMenu) => contextMenu.data.toJSON())),
+            body: [...this.commands.values(), ...this.contextMenus.values()].map((interaction) => interaction.data),
         });
     }
 
@@ -84,6 +82,6 @@ export default class Client extends DiscordClient {
             .setTitle("Counting Bot")
             .setColor(0x00ae86)
             .setTimestamp(new Date())
-            .setFooter({ text: `Counting Bot v${process.env.npm_package_version}`, iconURL: footerIcon })
+            .setFooter({ text: `Counting Bot v${process.env.npm_package_version}`, iconURL: footerIcon });
     }
 }
