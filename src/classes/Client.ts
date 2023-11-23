@@ -1,5 +1,5 @@
 import { getFiles } from "@/utils/files";
-import { ClientOptions, Collection, Client as DiscordClient, REST, Routes, EmbedBuilder, Embed } from "discord.js";
+import { ClientOptions, Collection, Client as DiscordClient, REST, Routes, EmbedBuilder } from "discord.js";
 import EventHandler from "@/classes/EventHandler";
 import Command from "./Command";
 import { log } from "@/log/log";
@@ -18,8 +18,7 @@ export default class Client extends DiscordClient {
         this.registerEventHandlers();
         this.loadCommands();
         this.loadContextMenus();
-        this.on("ready", this.registerCommands);
-        this.on("ready", this.registerContextMenus);
+        this.on("ready", this.registerCommandsAndContextMenus);
         this.on("ready", this.logReady);
     }
 
@@ -62,25 +61,14 @@ export default class Client extends DiscordClient {
         this.loadInteractions<ContextMenu>("contextMenus", this.contextMenus);
     }
 
-    private async registerCommands() {
+    private async registerCommandsAndContextMenus() {
         if (!this.token) throw new Error("Token is verdwenen.");
         if (!this.user) throw new Error("Application ID niet gevonden (besta ik wel??).");
 
         const rest = new REST().setToken(this.token);
 
         await rest.put(Routes.applicationCommands(this.user?.id), {
-            body: this.commands.map((command) => command.data.toJSON()),
-        });
-    }
-
-    private async registerContextMenus() {
-        if (!this.token) throw new Error("Token is verdwenen.");
-        if (!this.user) throw new Error("Application ID niet gevonden (besta ik wel??).");
-
-        const rest = new REST().setToken(this.token);
-
-        await rest.put(Routes.applicationCommands(this.user?.id), {
-            body: this.contextMenus.map((contextMenu) => contextMenu.data.toJSON()),
+            body: [...this.commands.values(), ...this.contextMenus.values()].map((interaction) => interaction.data),
         });
     }
 
@@ -94,6 +82,6 @@ export default class Client extends DiscordClient {
             .setTitle("Counting Bot")
             .setColor(0x00ae86)
             .setTimestamp(new Date())
-            .setFooter({ text: `Counting Bot v${process.env.npm_package_version}`, iconURL: footerIcon })
+            .setFooter({ text: `Counting Bot v${process.env.npm_package_version}`, iconURL: footerIcon });
     }
 }
