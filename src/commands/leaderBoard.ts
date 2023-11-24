@@ -1,7 +1,16 @@
 import Command from "@/classes/Command";
 import Guild from "@/classes/Guild";
 import { Contributor } from "@/types";
-import { ActionRowBuilder, ButtonBuilder, ButtonInteraction, ButtonStyle, CacheType, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonInteraction,
+    ButtonStyle,
+    CacheType,
+    ChatInputCommandInteraction,
+    EmbedBuilder,
+    SlashCommandBuilder,
+} from "discord.js";
 
 const pageSize = 10;
 
@@ -11,11 +20,8 @@ export default new Command({
         if (!interaction.guildId) return;
         const leaderboard: Contributor[] = await new Guild(interaction.guildId).fetchLeaderboard();
 
-        await interaction.reply({ 
-            embeds: [
-                client.embed()
-                .setDescription("Loading leaderboard...")
-            ] 
+        await interaction.reply({
+            embeds: [client.embed().setDescription("Loading leaderboard...")],
         });
         showPage(interaction, leaderboard, 0);
     },
@@ -35,39 +41,46 @@ async function showPage(interaction: ChatInputCommandInteraction<CacheType>, lea
             })),
         );
     let components;
-    if (leaderboard.length > pageSize) components = [new ActionRowBuilder<ButtonBuilder>()
-    .addComponents(
-        new ButtonBuilder()
-        .setCustomId("start")
-        .setEmoji("⬅️")
-        .setStyle(ButtonStyle.Primary)
-        .setDisabled(page === 0),
-        new ButtonBuilder()
-        .setCustomId("prev")
-        .setEmoji("◀️")
-        .setStyle(ButtonStyle.Primary)
-        .setDisabled(page === 0),
-        new ButtonBuilder()
-        .setCustomId("user")
-        .setEmoji("💙")
-        .setStyle(ButtonStyle.Primary)
-        .setDisabled(userIndex === -1 || (userIndex <= (page + 1) * pageSize && userIndex >= page * pageSize)),
-        new ButtonBuilder()
-        .setCustomId("next")
-        .setEmoji("▶️")
-        .setStyle(ButtonStyle.Primary)
-        .setDisabled(page === Math.floor(leaderboard.length / pageSize) - 1),
-        new ButtonBuilder()
-        .setCustomId("end")
-        .setEmoji("➡️")
-        .setStyle(ButtonStyle.Primary)
-        .setDisabled(page === Math.floor(leaderboard.length / pageSize) - 1)
-    )]
+    if (leaderboard.length > pageSize)
+        components = [
+            new ActionRowBuilder<ButtonBuilder>().addComponents(
+                new ButtonBuilder()
+                    .setCustomId("start")
+                    .setEmoji("⬅️")
+                    .setStyle(ButtonStyle.Primary)
+                    .setDisabled(page === 0),
+                new ButtonBuilder()
+                    .setCustomId("prev")
+                    .setEmoji("◀️")
+                    .setStyle(ButtonStyle.Primary)
+                    .setDisabled(page === 0),
+                new ButtonBuilder()
+                    .setCustomId("user")
+                    .setEmoji("💙")
+                    .setStyle(ButtonStyle.Primary)
+                    .setDisabled(
+                        userIndex === -1 || (userIndex <= (page + 1) * pageSize && userIndex >= page * pageSize),
+                    ),
+                new ButtonBuilder()
+                    .setCustomId("next")
+                    .setEmoji("▶️")
+                    .setStyle(ButtonStyle.Primary)
+                    .setDisabled(page === Math.floor(leaderboard.length / pageSize) - 1),
+                new ButtonBuilder()
+                    .setCustomId("end")
+                    .setEmoji("➡️")
+                    .setStyle(ButtonStyle.Primary)
+                    .setDisabled(page === Math.floor(leaderboard.length / pageSize) - 1),
+            ),
+        ];
 
     const message = await interaction.editReply({ embeds: [embed], components });
-    
+
     if (leaderboard.length > pageSize) {
-        const collector = message.createMessageComponentCollector({ filter: (i) => i.user.id === interaction.user.id, time: 60000 });
+        const collector = message.createMessageComponentCollector({
+            filter: (i) => i.user.id === interaction.user.id,
+            time: 60000,
+        });
 
         collector.on("end", (_, reason) => {
             if (reason === "time") {
@@ -85,7 +98,8 @@ async function showPage(interaction: ChatInputCommandInteraction<CacheType>, lea
             if (button.customId === "prev") await showPage(interaction, leaderboard, page - 1);
             if (button.customId === "user") await showPage(interaction, leaderboard, Math.floor(userIndex / pageSize));
             if (button.customId === "next") await showPage(interaction, leaderboard, page + 1);
-            if (button.customId === "end") await showPage(interaction, leaderboard, Math.floor(leaderboard.length / pageSize) - 1); 
+            if (button.customId === "end")
+                await showPage(interaction, leaderboard, Math.floor(leaderboard.length / pageSize) - 1);
         });
     }
 }

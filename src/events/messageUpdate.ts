@@ -28,7 +28,8 @@ export default new EventHandler({
         } else {
             let reactions = newMessage.reactions.cache.keys();
             for (const key of reactions) {
-                if ([...Object.values(numIcons).flat(), "❌"].includes(key)) newMessage.reactions.cache.get(key)?.remove();
+                if ([...Object.values(numIcons).flat(), "❌"].includes(key))
+                    newMessage.reactions.cache.get(key)?.remove();
             }
         }
 

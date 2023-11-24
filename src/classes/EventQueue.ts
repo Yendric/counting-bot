@@ -1,6 +1,6 @@
 import { EventExecutor } from "@/types";
-import Client from "./Client";
 import { ClientEvents } from "discord.js";
+import Client from "./Client";
 
 interface QueueItem<T extends keyof ClientEvents> {
     event: T;

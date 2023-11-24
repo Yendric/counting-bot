@@ -1,10 +1,10 @@
-import { getFiles } from "@/utils/files";
-import { ClientOptions, Collection, Client as DiscordClient, REST, Routes, EmbedBuilder } from "discord.js";
 import EventHandler from "@/classes/EventHandler";
-import Command from "./Command";
 import { log } from "@/log/log";
-import EventQueue from "./EventQueue";
+import { getFiles } from "@/utils/files";
+import { ClientOptions, Collection, Client as DiscordClient, EmbedBuilder, REST, Routes } from "discord.js";
+import Command from "./Command";
 import ContextMenu from "./ContextMenu";
+import EventQueue from "./EventQueue";
 
 export default class Client extends DiscordClient {
     public commands = new Collection<string, Command>();

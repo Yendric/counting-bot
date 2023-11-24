@@ -1,4 +1,4 @@
-import { ContextMenuCommandBuilder, ApplicationCommandType, ContextMenuCommandInteraction } from "discord.js";
+import { ApplicationCommandType, ContextMenuCommandBuilder, ContextMenuCommandInteraction } from "discord.js";
 import Client from "./Client";
 
 interface ContextMenuOptions {
@@ -18,7 +18,7 @@ export default class ContextMenu {
 
 export class UserContextMenu extends ContextMenu {
     constructor({ data, execute }: ContextMenuOptions) {
-      data = data.setType(ApplicationCommandType.User)
-      super({ data, execute });
+        data = data.setType(ApplicationCommandType.User);
+        super({ data, execute });
     }
 }

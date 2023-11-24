@@ -12,12 +12,15 @@ export default new Command({
 
         await interaction.reply({
             embeds: [
-                client.embed(interaction.guild?.iconURL() ?? undefined)
-                .setDescription(`We zitten momenteel aan ${currentCount}. Dit is ${goal - currentCount} verwijderd van het doel.`)
-                .setFields([
-                    { name: "Progress", value: createProgressBar(goal, currentCount), inline: false },
-                ])
-            ]
+                client
+                    .embed(interaction.guild?.iconURL() ?? undefined)
+                    .setDescription(
+                        `We zitten momenteel aan ${currentCount}. Dit is ${
+                            goal - currentCount
+                        } verwijderd van het doel.`,
+                    )
+                    .setFields([{ name: "Progress", value: createProgressBar(goal, currentCount), inline: false }]),
+            ],
         });
     },
 });

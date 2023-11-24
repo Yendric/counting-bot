@@ -4,7 +4,7 @@ import ContextMenu from "@/classes/ContextMenu";
 import EventHandler from "@/classes/EventHandler";
 import { log } from "@/log/log";
 import { LogTypes } from "@/types";
-import { ChatInputCommandInteraction, CommandInteraction, ContextMenuCommandInteraction } from "discord.js";
+import { ChatInputCommandInteraction, ContextMenuCommandInteraction } from "discord.js";
 
 export default new EventHandler({
     event: "interactionCreate",
@@ -25,8 +25,8 @@ export default new EventHandler({
 });
 
 async function executeCommand<T extends Command | ContextMenu>(
-    client: Client, 
-    command: T, 
+    client: Client,
+    command: T,
     interaction: T extends Command ? ChatInputCommandInteraction : ContextMenuCommandInteraction,
 ) {
     try {

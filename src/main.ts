@@ -1,7 +1,7 @@
 import { GatewayIntentBits } from "discord.js";
 import dotenv from "dotenv";
-import { getEnvVariable } from "./utils/environment";
 import Client from "./classes/Client";
+import { getEnvVariable } from "./utils/environment";
 dotenv.config();
 
 const BOT_TOKEN = getEnvVariable("BOT_TOKEN");
